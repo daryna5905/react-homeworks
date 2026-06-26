@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React JSX UserCard</title>
+    <!-- Підключаємо React -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <!-- Підключаємо ReactDOM -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Babel для підтримки JSX -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function TripInfo() {
+        const [passengers, setPassengers] = React.useState(0);
+        return (
+          <React.Fragment>
+            <h1>Завдання 1</h1>
+            <input
+              style={{ padding: "10px 5px", width: "220px", fontSize: "16px" }}
+              type="number"
+              placeholder="Введіть кількість пасажирів"
+              min="0"
+              onChange={(e) => setPassengers(Number(e.target.value))}
+            />
+            <ul style={{ fontSize: "20px" }}>
+              <li>Потрібно автобусів: {Math.ceil(passengers / 20)}</li>
+              <li>Пляшок води: {passengers * 2}</li>
+              <li>Бутербродів: {passengers * 3}</li>
+            </ul>
+          </React.Fragment>
+        );
+      }
+      function Weather() {
+        const [month, setMonth] = React.useState();
+        let imgLink = "./img/seasons.webp";
+        let clothes;
+        let description = "seasons";
+        switch (month) {
+          case 12:
+          case 1:
+          case 2:
+            imgLink = "./img/winter.webp";
+            clothes = "пальто, шапка, рукавиці";
+            description = "winter";
+            break;
+          case 3:
+          case 4:
+          case 5:
+            imgLink = "./img/spring.webp";
+            clothes = "штани, кофта, кросівки";
+            description = "spring";
+            break;
+          case 6:
+          case 7:
+          case 8:
+            imgLink = "./img/summer.webp";
+            clothes = "шорти, футболка, босоніжки";
+            description = "summer";
+            break;
+          case 9:
+          case 10:
+          case 11:
+            imgLink = "./img/autumn.webp";
+            clothes = "плащ, рубашка, брюки";
+            description = "autumn";
+            break;
+
+          default:
+            break;
+        }
+        return (
+          <React.Fragment>
+            <h1>Завдання 2</h1>
+            <input
+              style={{ padding: "10px 5px", width: "260px", fontSize: "16px" }}
+              type="number"
+              min="1"
+              max="12"
+              onChange={(e) => setMonth(Number(e.target.value))}
+              placeholder="Введіть число від 1 до 12"
+            />
+            <figure
+              style={{
+                width: "300px",
+                aspectRatio: "300/200",
+                margin: "20px 0 0 0",
+              }}
+            >
+              <img
+                style={{
+                  width: "100%",
+                  display: "block",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+                src={imgLink}
+                alt={description}
+              />
+              <figcaption style={{ fontSize: "20px", marginTop: "20px" }}>
+                Рекомендований одяг: {clothes}
+              </figcaption>
+            </figure>
+          </React.Fragment>
+        );
+      }
+      function RandomNumber() {
+        const [min, setMin] = React.useState("");
+        const [max, setMax] = React.useState("");
+        const [result, setResult] = React.useState();
+        const minNum = Number(min);
+        const maxNum = Number(max);
+        return (
+          <React.Fragment>
+            <h1>Завдання 3</h1>
+            <input
+              style={{
+                padding: "10px 5px",
+                width: "100px",
+                marginRight: "10px",
+                fontSize: "16px",
+              }}
+              type="number"
+              placeholder="Від"
+              onChange={(e) => setMin(e.target.value)}
+              value={min}
+            />
+            <input
+              style={{
+                padding: "10px 5px",
+                width: "100px",
+                fontSize: "16px",
+                marginRight: "10px",
+              }}
+              type="number"
+              placeholder="До"
+              onChange={(e) => setMax(e.target.value)}
+              value={max}
+            />
+            <button
+              style={{ padding: "10px 5px", width: "110px", fontSize: "16px" }}
+              onClick={() => {
+                if (min === "" || max === "") {
+                  setResult("Введіть числа");
+                } else if (minNum > maxNum) {
+                  setResult("Поміняйте числа місцями");
+                } else if (minNum === maxNum) {
+                  setResult("Числа мають бути різними");
+                } else {
+                  setResult(
+                    Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum,
+                  );
+                }
+              }}
+            >
+              Згенерувати
+            </button>
+            <div style={{ fontSize: "20px", marginTop: "20px" }}>
+              Згенероване число: {result}
+            </div>
+          </React.Fragment>
+        );
+      }
+      function BankBalance() {
+        const [balance, setBalance] = React.useState(0);
+        const [deposit, setDeposit] = React.useState("");
+        const [expenses, setExpenses] = React.useState("");
+        const [color, setColor] = React.useState("black");
+        const dolar = 45.2;
+        const euro = 51.5;
+        let percents;
+        if (deposit !== "") {
+          percents = Number((0.03 * Number(deposit)).toFixed(2));
+        } else {
+          percents = Number((0.03 * Number(expenses)).toFixed(2));
+        }
+        return (
+          <React.Fragment>
+            <h1>Завдання 4</h1>
+            <div style={{ fontSize: "20px" }}>
+              <div>
+                Сума рахунку:{" "}
+                <span style={{ color }}>{balance.toFixed(2)}</span>
+                <br />
+                Зарахувати на рахунок:
+                <input
+                  type="number"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setDeposit(value);
+                  }}
+                  style={{
+                    padding: "10px 5px",
+                    width: "100px",
+                    marginRight: "10px",
+                    fontSize: "16px",
+                  }}
+                  value={deposit}
+                />
+                <button
+                  style={{
+                    padding: "10px 5px",
+                    width: "100px",
+                    marginRight: "10px",
+                    fontSize: "16px",
+                  }}
+                  onClick={() => {
+                    setBalance((prevBalance) => {
+                      if (deposit === "") {
+                        alert("Введіть суму");
+                        return prevBalance;
+                      } else {
+                        setColor("green");
+                        return prevBalance + Number(deposit) - percents;
+                      }
+                    });
+                    setDeposit("");
+                  }}
+                >
+                  Зарахувати
+                </button>
+              </div>
+              <p>
+                Зняти з рахунку:
+                <input
+                  type="number"
+                  style={{
+                    padding: "10px 5px",
+                    width: "100px",
+                    marginRight: "10px",
+                    fontSize: "16px",
+                  }}
+                  value={expenses}
+                  onChange={(e) => {
+                    setExpenses(e.target.value);
+                  }}
+                />
+                <button
+                  style={{
+                    padding: "10px 5px",
+                    width: "100px",
+                    marginRight: "10px",
+                    fontSize: "16px",
+                  }}
+                  onClick={() => {
+                    setBalance((prevBalance) => {
+                      if (expenses === "") {
+                        alert("Введіть суму");
+                        return prevBalance;
+                      }
+                      if (prevBalance < Number(expenses) + percents) {
+                        alert(
+                          "Недостатньо коштів на рахунку. Будь ласка оберіть іншу суму",
+                        );
+                        return prevBalance;
+                      } else {
+                        setColor("red");
+                        return prevBalance - Number(expenses) - percents;
+                      }
+                    });
+
+                    setExpenses("");
+                  }}
+                >
+                  Зняти
+                </button>
+                <br />
+                Відсотки за обслуговування:{percents} грн
+              </p>
+              <hr />
+              Сума у доларах:{" "}
+              <span style={{ color: balance / dolar < 100 ? "red" : "green" }}>
+                {(balance / dolar).toFixed(2)}$
+              </span>
+              <br />
+              Сума у євро:{" "}
+              <span style={{ color: balance / euro < 100 ? "red" : "green" }}>
+                {(balance / euro).toFixed(2)}Є
+              </span>
+            </div>
+          </React.Fragment>
+        );
+      }
+      // Головний компонент App
+      function HandleLogin() {
+        const users = [
+          { login: "user1", password: "1234" },
+          { login: "user2", password: "qwerty" },
+          { login: "user3", password: "pass123" },
+          { login: "admin", password: "admin123" },
+          { login: "test", password: "test111" },
+          { login: "daryna", password: "react2026" },
+          { login: "ivan", password: "js2025" },
+          { login: "olena", password: "helloWorld" },
+          { login: "maks", password: "maks_pass" },
+          { login: "sasha", password: "sasha007" },
+          { login: "andrii", password: "andrii_dev" },
+          { login: "vika", password: "vika_2024" },
+        ];
+        const [login, setLogin] = React.useState("");
+        const [password, setPasssword] = React.useState("");
+        return (
+          <React.Fragment>
+            <h1>Завдання 5</h1>
+            <input
+              style={{
+                padding: "10px 5px",
+                width: "150px",
+                marginRight: "10px",
+                fontSize: "16px",
+                marginBottom: "10px",
+              }}
+              placeholder="login"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+            />
+            <br />
+            <input
+              style={{
+                padding: "10px 5px",
+                width: "150px",
+                marginRight: "10px",
+                fontSize: "16px",
+              }}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPasssword(e.target.value)}
+            />
+            <button
+              style={{
+                padding: "10px 5px",
+                width: "150px",
+                fontSize: "16px",
+              }}
+              onClick={() => {
+                if (
+                  users.find(
+                    (user) =>
+                      user.login === login && user.password === password,
+                  )
+                ) {
+                  alert("Ви успішно ввійшли");
+                } else {
+                  alert("Не правильний логін або пароль");
+                }
+              }}
+            >
+              Go
+            </button>
+          </React.Fragment>
+        );
+      }
+      function App() {
+        return (
+          <React.Fragment>
+            <TripInfo />
+            <Weather />
+            <RandomNumber />
+            <BankBalance />
+            <HandleLogin />
+          </React.Fragment>
+        );
+      }
+
+      // Рендеримо компонент App у DOM
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
